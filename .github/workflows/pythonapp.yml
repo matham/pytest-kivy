@@ -28,7 +28,9 @@ jobs:
       with:
         python-version: 3.x
     - name: Install project
-      run: python3 -m pip install -e .[dev]
+      run: |
+        python3 -m pip install wheel
+        python3 -m pip install -e .[dev]
     - name: Make sdist
       run: python3 setup.py sdist --formats=gztar
     - name: Make wheel
@@ -57,6 +59,7 @@ jobs:
   linux_test:
     runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
         async_lib_installed: [ 'trio', 'asyncio' ]
         event_loop: [ 'trio', 'asyncio' ]
@@ -93,6 +96,7 @@ jobs:
   windows_test:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         async_lib_installed: [ 'trio', 'asyncio' ]
         event_loop: [ 'trio', 'asyncio' ]

@@ -2,6 +2,7 @@ import os
 import pytest
 
 lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
+event_loop = os.environ.get('KIVY_EVENTLOOP', None)
 
 
 def button_app():
@@ -39,6 +40,8 @@ async def test_button_app_asyncio(asyncio_kivy_app):
     await assert_app_working(asyncio_kivy_app)
 
 
+@pytest.mark.skipif(
+    lib_installed != event_loop, reason='Installed must match event loop')
 async def test_button_app_async(async_kivy_app):
     await async_kivy_app(button_app)
     await assert_app_working(async_kivy_app)
