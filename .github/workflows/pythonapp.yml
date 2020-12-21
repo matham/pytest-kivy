@@ -1,0 +1,158 @@
+name: Python application
+
+on: [push, pull_request]
+
+jobs:
+  lint_test:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip virtualenv wheel setuptools
+    - name: Lint with pycodestyle
+      run: |
+        python3 -m pip install flake8
+        python3 -m flake8 .
+
+  wheels_sdist:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install project
+      run: python3 -m pip install -e .[dev]
+    - name: Make sdist
+      run: python3 setup.py sdist --formats=gztar
+    - name: Make wheel
+      run: python3 setup.py bdist_wheel --universal
+    - name: Upload wheels as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheels
+        path: dist
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@78c309ef59fdb9557cd6574f2e0be552936ed728
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: dist/*
+    - name: Publish to PyPI
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        TWINE_USERNAME: "__token__"
+        TWINE_PASSWORD: ${{ secrets.pypi_password }}
+      run: |
+        python -m pip install twine
+        twine upload dist/*
+
+  linux_test:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        async_lib_installed: [ 'trio', 'asyncio' ]
+        event_loop: [ 'trio', 'asyncio' ]
+    env:
+      KIVY_EVENTLOOP: ${{ matrix.event_loop }}
+      KIVY_EVENTLOOP_TEST_INSTALLED: ${{ matrix.async_lib_installed }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install project (asyncio)
+      if: matrix.async_lib_installed == "asyncio"
+      run: python3 -m pip install -e .[dev,asyncio]
+    - name: Install project (trio)
+      if: matrix.async_lib_installed == "trio"
+      run: |
+        python3 -c "with open('pytest.ini', 'w') as fh: fh.write('[pytest]\ntrio_mode = true\n')"
+        python3 -m pip install -e .[dev,trio]
+    - name: Test with pytest
+      run: |
+        python3 -m pytest --cov=pytest_kivy --cov-report term --cov-branch pytest_kivy/tests
+    - name: Coveralls upload
+      run: python3 -m coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+
+  windows_test:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        async_lib_installed: [ 'trio', 'asyncio' ]
+        event_loop: [ 'trio', 'asyncio' ]
+    env:
+      KIVY_EVENTLOOP: ${{ matrix.event_loop }}
+      KIVY_EVENTLOOP_TEST_INSTALLED: ${{ matrix.async_lib_installed }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install project (asyncio)
+      if: matrix.async_lib_installed == "asyncio"
+      run: python -m pip install -e .[dev,asyncio]
+    - name: Install project (trio)
+      if: matrix.async_lib_installed == "trio"
+      run: |
+        python -c "with open('pytest.ini', 'w') as fh: fh.write('[pytest]\ntrio_mode = true\n')"
+        python -m pip install -e .[dev,trio]
+    - name: Test with pytest
+      run: |
+        python -m pytest --cov=pytest_kivy --cov-report term --cov-branch pytest_kivy/tests
+
+  docs:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    - name: Install dependencies
+      env:
+          KIVY_DOC_INCLUDE: 1
+          KIVY_DOC: 1
+      run: |
+        python3 -m pip install --upgrade pip virtualenv wheel setuptools sphinx
+        python3 -m pip install -e .[dev]
+    - name: Generate docs
+      run: |
+        cd doc
+        make html
+    - name: gh-pages upload
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cp -r doc/build/html ~/docs_temp
+
+        git config --global user.email "moiein2000@gmail.com"
+        git config --global user.name "Matthew Einhorn"
+        git remote rm origin || true
+        git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/matham/pytest-kivy.git"
+
+        git checkout --orphan gh-pages
+        cp -r .git ~/docs_git
+        cd ..
+        rm -rf pytest_kivy
+        mkdir pytest_kivy
+        cd pytest_kivy
+        cp -r ~/docs_git .git
+        cp -r ~/docs_temp/* .
+        touch .nojekyll
+
+        git add .
+        git commit -a -m "Docs for git-$GITHUB_SHA"
+        git push origin gh-pages -f
