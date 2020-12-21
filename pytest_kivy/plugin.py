@@ -24,10 +24,18 @@ if _async_lib == 'asyncio':
     @pytest.fixture
     async def _nursery():
         return None
+
+    @pytest.fixture
+    async def _event_loop(event_loop):
+        return event_loop
 elif _async_lib == 'trio':
     @pytest.fixture
     async def _nursery(nursery):
         return nursery
+
+    @pytest.fixture
+    async def _event_loop():
+        return None
 else:
     raise TypeError(f'unknown event loop {_async_lib}')
 
@@ -136,7 +144,7 @@ async def trio_kivy_app(
 
 @pytest.fixture
 async def asyncio_kivy_app(
-        request, _app_release_list, _app_release) -> AsyncUnitApp:
+        request, event_loop, _app_release_list, _app_release) -> AsyncUnitApp:
     """Fixture yielding a :class:`~pytest_kivy.app.AsyncUnitApp` using
     explicitly asyncio as backend for the async library.
 
@@ -145,7 +153,8 @@ async def asyncio_kivy_app(
     cls, kwargs, app_cls, app_list = _get_request_config(
         request, _app_release_list, _app_release)
 
-    async with cls(async_lib='asyncio', **kwargs) as app:
+    async with cls(
+            event_loop=event_loop, async_lib='asyncio', **kwargs) as app:
         if app_list is not None:
             app_list.append((weakref.ref(app), weakref.ref(request)))
 
@@ -157,7 +166,7 @@ async def asyncio_kivy_app(
 
 @pytest.fixture
 async def async_kivy_app(
-        request, _app_release_list, _app_release, _nursery
+        request, _app_release_list, _app_release, _nursery, _event_loop
 ) -> AsyncUnitApp:
     """Fixture yielding a :class:`~pytest_kivy.app.AsyncUnitApp` using
     trio or asyncio as backend for the async library, depending on
@@ -170,7 +179,9 @@ async def async_kivy_app(
     cls, kwargs, app_cls, app_list = _get_request_config(
         request, _app_release_list, _app_release)
 
-    async with cls(nursery=_nursery, async_lib=_async_lib, **kwargs) as app:
+    async with cls(
+            nursery=_nursery, event_loop=_event_loop, async_lib=_async_lib,
+            **kwargs) as app:
         if app_list is not None:
             app_list.append((weakref.ref(app), weakref.ref(request)))
 

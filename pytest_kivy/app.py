@@ -30,6 +30,8 @@ class AsyncUnitApp:
 
     _nursery = None
 
+    _event_loop = None
+
     width = 320
 
     height = 240
@@ -37,10 +39,11 @@ class AsyncUnitApp:
     async_lib = os.environ.get('KIVY_EVENTLOOP', 'asyncio')
 
     def __init__(
-            self, nursery=None, width=320, height=240,
+            self, nursery=None, event_loop=None, width=320, height=240,
             async_lib=os.environ.get('KIVY_EVENTLOOP', 'asyncio')):
         super().__init__()
         self._nursery = nursery
+        self._event_loop = event_loop
         self.width = width
         self.height = height
         self.async_lib = async_lib
@@ -113,9 +116,7 @@ class AsyncUnitApp:
         app.fbind('on_stop', stopped_app)
 
         if self.async_lib == 'asyncio':
-            import asyncio
-            loop = asyncio.get_event_loop()
-            loop.create_task(app.async_run())
+            self._event_loop.create_task(app.async_run())
         else:
             self._nursery.start_soon(app.async_run)
 

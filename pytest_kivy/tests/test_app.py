@@ -2,11 +2,14 @@ import pytest
 import os
 
 lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
-event_loop = os.environ.get('KIVY_EVENTLOOP', None)
-pytestmark = pytest.mark.skipif(
-    lib_installed != event_loop,
-    reason='Tests are run only when event loop matches async library installed'
-)
+event_loop = os.environ.get('KIVY_EVENTLOOP', 'asyncio')
+if lib_installed is not None and lib_installed != event_loop:
+    pytestmark = pytest.mark.skip(
+        'Tests are run only when event loop matches async library installed')
+elif event_loop == 'asyncio':
+    pytestmark = pytest.mark.asyncio
+else:
+    pytestmark = pytest.mark.trio
 
 
 async def test_touch_down_up(async_kivy_app):
