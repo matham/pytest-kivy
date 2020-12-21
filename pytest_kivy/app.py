@@ -266,6 +266,7 @@ class AsyncUnitApp:
         location, ending with a touch up.
 
         `origin`: These parameters specify where the drag starts.
+
         - If ``widget`` is None, it starts at ``pos`` (in window coordinates).
           If ``dx``/``dy`` is used, it is in the window coordinate system also.
         - If ``pos`` is None, it starts on the ``widget`` as specified by
@@ -277,6 +278,7 @@ class AsyncUnitApp:
           coordinate system.
 
         `target`: These parameters specify where the drag ends.
+
         - If ``target_pos`` and ``target_widget`` is None, then ``dx`` and
           ``dy`` is used relative to the position where the drag started.
         - If ``target_widget`` is None, it ends at ``target_pos``
@@ -364,6 +366,7 @@ class AsyncUnitApp:
         drag will follow it until it's on the target widget.
 
         `origin`: These parameters specify where the drag starts.
+
         - If ``widget`` is None, it starts at ``pos`` (in window coordinates).
         - If ``pos`` is None, it starts on the ``widget`` as specified by
           ``widget_loc``.
@@ -372,6 +375,7 @@ class AsyncUnitApp:
           on it).
 
         `target`: These parameters specify where the drag ends.
+
         - If ``target_pos`` is None, it ends on the ``target_widget`` as
           specified by ``target_widget_loc``. ``target_widget_offset``, is an
           additional ``(x, y)`` offset relative to ``target_widget_loc``.
