@@ -1,4 +1,5 @@
 import pytest
+from functools import partial
 import os
 
 lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
@@ -94,18 +95,19 @@ async def test_drag_scroll_view_pixels(async_kivy_app):
     assert a == 255
 
 
+def create_text_app(text=''):
+    from kivy.app import App
+    from kivy.uix.textinput import TextInput
+
+    class TestApp(App):
+        def build(self):
+            return TextInput(text=text)
+
+    return TestApp()
+
+
 async def test_text_app(async_kivy_app):
-    def create_app():
-        from kivy.app import App
-        from kivy.uix.textinput import TextInput
-
-        class TestApp(App):
-            def build(self):
-                return TextInput()
-
-        return TestApp()
-
-    await async_kivy_app(create_app)
+    await async_kivy_app(create_text_app)
     root = async_kivy_app.app.root
 
     assert root.text == ''
@@ -122,3 +124,31 @@ async def test_text_app(async_kivy_app):
         pass
 
     assert root.text == 'AAAAqqq'
+
+
+async def test_replace_text_app(async_kivy_app):
+    await async_kivy_app(partial(create_text_app, text='hello'))
+
+    root = async_kivy_app.app.root
+    assert root.text == 'hello'
+
+    # activate it
+    async for state, touch_pos in async_kivy_app.do_touch_down_up(widget=root):
+        pass
+
+    # select all
+    ctrl_it = async_kivy_app.do_keyboard_key(key='lctrl', modifiers=['ctrl'])
+    await ctrl_it.__anext__()  # down
+
+    async for _ in async_kivy_app.do_keyboard_key(key='a', modifiers=['ctrl']):
+        pass
+    await ctrl_it.__anext__()  # up
+    with pytest.raises(StopAsyncIteration):
+        await ctrl_it.__anext__()
+
+    # replace text
+    for key in ['delete'] + list('new text') + ['enter']:
+        async for _ in async_kivy_app.do_keyboard_key(key=key):
+            pass
+
+    assert root.text == 'new text\n'

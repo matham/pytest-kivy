@@ -130,6 +130,9 @@ class AsyncUnitApp:
         return app
 
     async def wait_stop_app(self):
+        if self.app is None:
+            return
+
         from kivy.base import stopTouchApp
         stopTouchApp()
 

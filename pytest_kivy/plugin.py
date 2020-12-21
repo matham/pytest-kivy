@@ -68,7 +68,7 @@ def _app_release_list():
 
     gc.collect()
     alive_apps = []
-    for i, (app, request) in enumerate(apps[1:-1]):
+    for i, (app, request) in enumerate(apps[:-1]):
         app = app()
         request = request()
         if request is None:

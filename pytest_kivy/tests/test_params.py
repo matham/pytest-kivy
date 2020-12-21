@@ -1,5 +1,6 @@
 import pytest
 import os
+from pytest_kivy.app import AsyncUnitApp
 
 lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
 event_loop = os.environ.get('KIVY_EVENTLOOP', 'asyncio')
@@ -35,6 +36,7 @@ async def assert_app_working(app):
 
 
 async def test_app_call_cls(async_kivy_app):
+    assert isinstance(async_kivy_app, AsyncUnitApp)
     await async_kivy_app(button_app)
     await assert_app_working(async_kivy_app)
 
@@ -51,3 +53,15 @@ async def test_app_param_height(async_kivy_app):
     await async_kivy_app(button_app)
     await assert_app_working(async_kivy_app)
     assert async_kivy_app.app.root.height == 400
+
+
+class CustomAsyncUnitApp(AsyncUnitApp):
+    pass
+
+
+@pytest.mark.parametrize(
+    'async_kivy_app', [{'cls': CustomAsyncUnitApp}], indirect=True)
+async def test_app_cls(async_kivy_app):
+    assert isinstance(async_kivy_app, CustomAsyncUnitApp)
+    await async_kivy_app(button_app)
+    await assert_app_working(async_kivy_app)

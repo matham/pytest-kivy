@@ -1,8 +1,8 @@
 import os
 import pytest
 
-lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
 event_loop = os.environ.get('KIVY_EVENTLOOP', None)
+lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', event_loop)
 if lib_installed == 'asyncio' or lib_installed is None:
     pytestmark = pytest.mark.asyncio
 else:
