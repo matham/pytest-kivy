@@ -70,10 +70,10 @@ jobs:
       with:
         python-version: 3.x
     - name: Install project (asyncio)
-      if: matrix.async_lib_installed == "asyncio"
+      if: matrix.async_lib_installed == 'asyncio'
       run: python3 -m pip install -e .[dev,asyncio]
     - name: Install project (trio)
-      if: matrix.async_lib_installed == "trio"
+      if: matrix.async_lib_installed == 'trio'
       run: |
         python3 -c "with open('pytest.ini', 'w') as fh: fh.write('[pytest]\ntrio_mode = true\n')"
         python3 -m pip install -e .[dev,trio]
@@ -101,10 +101,10 @@ jobs:
       with:
         python-version: 3.x
     - name: Install project (asyncio)
-      if: matrix.async_lib_installed == "asyncio"
+      if: matrix.async_lib_installed == 'asyncio'
       run: python -m pip install -e .[dev,asyncio]
     - name: Install project (trio)
-      if: matrix.async_lib_installed == "trio"
+      if: matrix.async_lib_installed == 'trio'
       run: |
         python -c "with open('pytest.ini', 'w') as fh: fh.write('[pytest]\ntrio_mode = true\n')"
         python -m pip install -e .[dev,trio]
