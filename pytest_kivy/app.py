@@ -48,15 +48,15 @@ class AsyncUnitApp:
         self.height = height
         self.async_lib = async_lib
 
-    def __getattr__(self, item):
-        return getattr(self.app, item)
-
-    async def __aenter__(self):
+    def set_kivy_config(self):
         from kivy.config import Config
         Config.set('graphics', 'width', str(self.width))
         Config.set('graphics', 'height', str(self.height))
         for items in Config.items('input'):
             Config.remove_option('input', items[0])
+
+    async def __aenter__(self):
+        self.set_kivy_config()
 
         from kivy.core.window import Window
         from kivy.context import Context
