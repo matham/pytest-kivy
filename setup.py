@@ -1,12 +1,16 @@
 from setuptools import setup, find_packages
 from io import open
-from os import path
+from os.path import dirname, join, abspath
 
-from pytest_kivy import __version__
+here = abspath(dirname(__file__))
 
-here = path.abspath(path.dirname(__file__))
+# __version__ is imported by exec, but help linter not complain
+__version__ = None
+with open(join(here, 'pytest_kivy', '_version.py'), encoding="utf-8") as f:
+    exec(f.read())
 
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+
+with open(join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 URL = 'https://github.com/matham/pytest-kivy'
