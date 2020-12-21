@@ -63,12 +63,17 @@ jobs:
     env:
       KIVY_EVENTLOOP: ${{ matrix.event_loop }}
       KIVY_EVENTLOOP_TEST_INSTALLED: ${{ matrix.async_lib_installed }}
+      DISPLAY: ':99.0'
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
+    - name: Install dependencies
+      run: |
+        sudo apt -y install xvfb
+        /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -screen 0 1280x720x24 -ac +extension GLX
     - name: Install project (asyncio)
       if: matrix.async_lib_installed == 'asyncio'
       run: python3 -m pip install -e .[dev,asyncio]
@@ -94,6 +99,8 @@ jobs:
     env:
       KIVY_EVENTLOOP: ${{ matrix.event_loop }}
       KIVY_EVENTLOOP_TEST_INSTALLED: ${{ matrix.async_lib_installed }}
+      GST_REGISTRY: '~/registry.bin'
+      KIVY_GL_BACKEND: 'angle_sdl2'
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
