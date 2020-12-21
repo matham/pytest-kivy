@@ -30,7 +30,6 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Testing",
         "Framework :: Pytest",
-        "Framework :: Kivy",
     ],
     packages=find_packages(),
     entry_points={"pytest11": ["kivy = pytest_kivy.plugin"]},
