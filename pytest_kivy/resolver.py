@@ -8,9 +8,13 @@ a specific widget in the widget tree.
 
 from collections import deque
 
-__all__ = ('WidgetResolver', )
+__all__ = ('WidgetResolver', 'ResolverNotFound')
 
 _unique_value = object
+
+
+class ResolverNotFound(ValueError):
+    pass
 
 
 class WidgetResolver:
@@ -41,9 +45,11 @@ class WidgetResolver:
 
     def match(self, **kwargs_filter):
         self._kwargs_filter.update(kwargs_filter)
+        return self
 
     def match_funcs(self, funcs_filter=()):
         self._funcs_filter.extend(funcs_filter)
+        return self
 
     def check_widget(self, widget):
         if not all(func(widget) for func in self._funcs_filter):
@@ -56,13 +62,14 @@ class WidgetResolver:
         return True
 
     def not_found(self, op):
-        raise ValueError(
+        raise ResolverNotFound(
             'Cannot find widget matching <{}, {}> starting from base '
             'widget "{}" doing "{}" traversal'.format(
                 self._kwargs_filter, self._funcs_filter, self.base_widget, op))
 
-    def down(self, **kwargs_filter):
+    def down(self, *__funcs_filter, **kwargs_filter):
         self.match(**kwargs_filter)
+        self.match_funcs(__funcs_filter)
         check = self.check_widget
 
         fifo = deque([self.base_widget])
@@ -75,8 +82,9 @@ class WidgetResolver:
 
         self.not_found('down')
 
-    def up(self, **kwargs_filter):
+    def up(self, *__funcs_filter, **kwargs_filter):
         self.match(**kwargs_filter)
+        self.match_funcs(__funcs_filter)
         check = self.check_widget
 
         parent = self.base_widget
@@ -92,8 +100,9 @@ class WidgetResolver:
 
         self.not_found('up')
 
-    def family_up(self, **kwargs_filter):
+    def family_up(self, *__funcs_filter, **kwargs_filter):
         self.match(**kwargs_filter)
+        self.match_funcs(__funcs_filter)
         check = self.check_widget
 
         base_widget = self.base_widget

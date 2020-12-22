@@ -1,16 +1,10 @@
 import pytest
 from functools import partial
-import os
 
-lib_installed = os.environ.get('KIVY_EVENTLOOP_TEST_INSTALLED', None)
-event_loop = os.environ.get('KIVY_EVENTLOOP', 'asyncio')
-if lib_installed is not None and lib_installed != event_loop:
-    pytestmark = pytest.mark.skip(
-        'Tests are run only when event loop matches async library installed')
-elif event_loop == 'asyncio':
-    pytestmark = pytest.mark.asyncio
-else:
-    pytestmark = pytest.mark.trio
+from pytest_kivy.tests import get_pytest_async_mark
+from pytest_kivy.tools import exhaust
+
+pytestmark = get_pytest_async_mark()
 
 
 async def test_touch_down_up(async_kivy_app):
@@ -30,9 +24,8 @@ async def test_touch_down_up(async_kivy_app):
     assert root.text == 'Hello, World!'
     assert root.state == 'normal'
 
-    async for _ in async_kivy_app.do_touch_down_up(
-            widget=root, widget_jitter=True):
-        pass
+    await exhaust(
+        async_kivy_app.do_touch_down_up(widget=root, widget_jitter=True))
 
     assert root.state == 'down'
 
@@ -152,3 +145,73 @@ async def test_replace_text_app(async_kivy_app):
             pass
 
     assert root.text == 'new text\n'
+
+
+@pytest.mark.parametrize(
+    'async_kivy_app', [{'kwargs': {'height': 200, 'width': 200}}],
+    indirect=True)
+async def test_touch_drag_path(async_kivy_app):
+    path = list(zip(range(5, 95, 5), range(20, 110, 5)))
+    pos = []
+
+    def path_app():
+        from kivy.app import App
+        from kivy.uix.widget import Widget
+
+        class MyWidget(Widget):
+            def on_touch_down(self, touch):
+                pos.append(tuple(map(int, touch.pos)))
+                return super().on_touch_down(touch)
+
+            def on_touch_move(self, touch):
+                pos.append(tuple(map(int, touch.pos)))
+                return super().on_touch_move(touch)
+
+            def on_touch_up(self, touch):
+                pos.append(tuple(map(int, touch.pos)))
+                return super().on_touch_up(touch)
+
+        class TestApp(App):
+            def build(self):
+                return MyWidget()
+
+        return TestApp()
+
+    await async_kivy_app(path_app)
+
+    async for _ in async_kivy_app.do_touch_drag_path(path):
+        pass
+
+    assert path + [path[-1]] == pos
+
+
+@pytest.mark.parametrize(
+    'async_kivy_app', [{'kwargs': {'height': 200, 'width': 200}}],
+    indirect=True)
+async def test_touch_drag_follow(async_kivy_app):
+    def follow_app():
+        from kivy.app import App
+        from kivy.uix.widget import Widget
+
+        class TestApp(App):
+            def build(self):
+                widget = Widget()
+                widget.add_widget(Widget(size=(10, 10), pos=(0, 0)))
+                return widget
+
+        return TestApp()
+
+    await async_kivy_app(follow_app)
+    follow = async_kivy_app.app.root.children[0]
+
+    x = y = None
+    async for state, (x, y) in async_kivy_app.do_touch_drag_follow(
+            pos=(100, 195), target_widget=follow, drag_n=5):
+        if (int(x), int(y)) == (int(follow.center_x), int(follow.center_y)):
+            break
+
+        follow.x += 15
+        follow.y += 10
+        await async_kivy_app.wait_clock_frames(1)
+
+    assert (int(x), int(y)) == (int(follow.center_x), int(follow.center_y))
