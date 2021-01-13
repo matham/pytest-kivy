@@ -168,11 +168,13 @@ class AsyncUnitApp:
             base_widget = Window
         return WidgetResolver(base_widget=base_widget)
 
-    async def wait_clock_frames(self, n, sleep_time=1 / 60.):
+    async def wait_clock_frames(
+            self, n: int, sleep_time: float = 1 / 60.) -> int:
         from kivy.clock import Clock
         frames_start = Clock.frames
         while Clock.frames < frames_start + n:
             await self.async_sleep(sleep_time)
+        return Clock.frames
 
     def get_widget_pos_pixel(self, widget, positions):
         from kivy.graphics import Fbo, ClearColor, ClearBuffers
