@@ -6,6 +6,7 @@ The wrapper app to help test Kivy apps.
 """
 
 import random
+import sys
 import time
 import math
 import os
@@ -31,6 +32,8 @@ class AsyncUnitApp:
     _nursery = None
 
     _event_loop = None
+
+    _start_exception = None
 
     width = 320
 
@@ -116,17 +119,22 @@ class AsyncUnitApp:
         app.fbind('on_stop', stopped_app)
 
         if self.async_lib == 'asyncio':
-            self._event_loop.create_task(app.async_run())
+            self._event_loop.create_task(self._run_app())
         else:
-            self._nursery.start_soon(app.async_run)
+            self._nursery.start_soon(self._run_app)
 
+        # if _run_app raises, trio seems to get stuck, so don't wait forever
         ts = time.perf_counter()
-        while not self.app_has_started:
+        while not self.app_has_started and self._start_exception is None:
             await self.async_sleep(.1)
             if time.perf_counter() - ts >= 120:
                 raise TimeoutError()
 
-        await self.wait_clock_frames(5)
+        from kivy.clock import Clock
+        frames_end = Clock.frames + 5
+        while Clock.frames < frames_end and self._start_exception is None:
+            await self.async_sleep(1 / 60.)
+
         return app
 
     async def wait_stop_app(self):
@@ -157,6 +165,22 @@ class AsyncUnitApp:
         self._context.pop()
         self._context = None
         LoggerHistory.clear_history()
+
+    async def _run_app(self):
+        try:
+            await self.app.async_run()
+        except BaseException:
+            self._start_exception = sys.exc_info()
+            raise
+
+    def raise_startup_exception(self):
+        """(internal) Trio seems to get stuck if app startup fails. So we
+        check startup status in the fixture before yielding app.
+        """
+        if self._start_exception is not None:
+            tp, value, tb = self._start_exception
+            self._start_exception = None
+            raise value.with_traceback(tb)
 
     async def async_sleep(self, delay):
         from kivy.clock import Clock

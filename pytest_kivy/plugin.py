@@ -138,6 +138,8 @@ async def trio_kivy_app(
 
         if app_cls is not None:
             await app(app_cls)
+        app.raise_startup_exception()
+
         yield app
         await app.wait_stop_app()
 
@@ -160,6 +162,8 @@ async def asyncio_kivy_app(
 
         if app_cls is not None:
             await app(app_cls)
+        app.raise_startup_exception()
+
         yield app
         await app.wait_stop_app()
 
@@ -187,5 +191,7 @@ async def async_kivy_app(
 
         if app_cls is not None:
             await app(app_cls)
+        app.raise_startup_exception()
+
         yield app
         await app.wait_stop_app()
