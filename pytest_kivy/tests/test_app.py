@@ -7,6 +7,29 @@ from pytest_kivy.tools import exhaust
 pytestmark = get_pytest_async_mark()
 
 
+class StartupException(Exception):
+    pass
+
+
+def create_app():
+    from kivy.app import App
+    from kivy.uix.widget import Widget
+
+    class TestApp(App):
+        def build(self):
+            return Widget()
+
+        def on_start(self):
+            raise StartupException
+
+    return TestApp()
+
+
+@pytest.mark.xfail(raises=StartupException, strict=True)
+async def test_exception_start_app(async_kivy_app):
+    await async_kivy_app(create_app)
+
+
 async def test_touch_down_up(async_kivy_app):
     def button_app():
         from kivy.app import App

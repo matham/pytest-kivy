@@ -141,8 +141,12 @@ class AsyncUnitApp:
         if self.app is None:
             return
 
-        from kivy.base import stopTouchApp
+        from kivy.base import stopTouchApp, EventLoop
         stopTouchApp()
+        await self.async_sleep(0)
+        if EventLoop.status == 'idle':
+            # it never started so don't wait to start
+            return
 
         ts = time.perf_counter()
         while not self.app_has_stopped:
