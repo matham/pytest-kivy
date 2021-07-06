@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   lint_test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.x
@@ -20,7 +20,7 @@ jobs:
         python3 -m flake8 .
 
   wheels_sdist:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
@@ -57,7 +57,7 @@ jobs:
         twine upload dist/*
 
   linux_test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -126,7 +126,7 @@ jobs:
         python -m pytest --cov=pytest_kivy --cov-report term --cov-branch pytest_kivy/tests
 
   docs:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.x
