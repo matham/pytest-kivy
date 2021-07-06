@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>API &mdash; pytest-kivy  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytest-kivy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pytest-trio">pytest-trio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plugin">Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#app">App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#resolver">Resolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tools">Tools</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytest-kivy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-pytest_kivy"></span><div class="section" id="pytest-trio">
+<h2>pytest-trio<a class="headerlink" href="#pytest-trio" title="Permalink to this headline">¶</a></h2>
+<p>Provides pytest fixtures to more easily test Kivy GUI apps.</p>
+</div>
+<span class="target" id="module-pytest_kivy.plugin"></span><div class="section" id="plugin">
+<h2>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">¶</a></h2>
+<p>The fixtures provided by pytest-kivy.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_kivy.plugin.async_kivy_app">
+<span class="sig-prename descclassname"><span class="pre">pytest_kivy.plugin.</span></span><span class="sig-name descname"><span class="pre">async_kivy_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_nursery</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_event_loop</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><span class="pre">pytest_kivy.app.AsyncUnitApp</span></a><a class="headerlink" href="#pytest_kivy.plugin.async_kivy_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixture yielding a <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncUnitApp</span></code></a> using
+trio or asyncio as backend for the async library, depending on
+KIVY_EVENTLOOP.</p>
+<p>If using trio, pytest-trio and trio must be installed, and
+<code class="docutils literal notranslate"><span class="pre">trio_mode</span> <span class="pre">=</span> <span class="pre">true</span></code> must be set in pytest.ini. If using asyncio,
+pytest-asyncio must be installed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_kivy.plugin.asyncio_kivy_app">
+<span class="sig-prename descclassname"><span class="pre">pytest_kivy.plugin.</span></span><span class="sig-name descname"><span class="pre">asyncio_kivy_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_loop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><span class="pre">pytest_kivy.app.AsyncUnitApp</span></a><a class="headerlink" href="#pytest_kivy.plugin.asyncio_kivy_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixture yielding a <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncUnitApp</span></code></a> using
+explicitly asyncio as backend for the async library.</p>
+<p>pytest-asyncio must be installed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_kivy.plugin.trio_kivy_app">
+<span class="sig-prename descclassname"><span class="pre">pytest_kivy.plugin.</span></span><span class="sig-name descname"><span class="pre">trio_kivy_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nursery</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_app_release</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><span class="pre">pytest_kivy.app.AsyncUnitApp</span></a><a class="headerlink" href="#pytest_kivy.plugin.trio_kivy_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fixture yielding a <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp" title="pytest_kivy.app.AsyncUnitApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncUnitApp</span></code></a> using
+explicitly trio as backend for the async library.</p>
+<p>pytest-trio and trio must be installed, and <code class="docutils literal notranslate"><span class="pre">trio_mode</span> <span class="pre">=</span> <span class="pre">true</span></code> must be
+set in pytest.ini.</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-pytest_kivy.input"></span><div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<p>Input classes that can be used to simulate deice (e.g. mouse) input.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_kivy.input.AsyncUnitTestTouch">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytest_kivy.input.</span></span><span class="sig-name descname"><span class="pre">AsyncUnitTestTouch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">largs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.input.AsyncUnitTestTouch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kivy.tests.common.UnitTestTouch</span></code></p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-pytest_kivy.app"></span><div class="section" id="app">
+<h2>App<a class="headerlink" href="#app" title="Permalink to this headline">¶</a></h2>
+<p>The wrapper app to help test Kivy apps.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_kivy.app.AsyncUnitApp">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytest_kivy.app.</span></span><span class="sig-name descname"><span class="pre">AsyncUnitApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nursery</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_loop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">320</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">240</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">async_lib</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'asyncio'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.app.AsyncUnitApp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wrapper app that provides methods to test parts of a Kivy App
+asynchronously.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_kivy.app.AsyncUnitApp.do_touch_drag">
+<span class="sig-name descname"><span class="pre">do_touch_drag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drag_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.app.AsyncUnitApp.do_touch_drag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiates a touch down, followed by some dragging to a target
+location, ending with a touch up.</p>
+<p><cite>origin</cite>: These parameters specify where the drag starts.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">widget</span></code> is None, it starts at <code class="docutils literal notranslate"><span class="pre">pos</span></code> (in window coordinates).
+If <code class="docutils literal notranslate"><span class="pre">dx</span></code>/<code class="docutils literal notranslate"><span class="pre">dy</span></code> is used, it is in the window coordinate system also.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">pos</span></code> is None, it starts on the <code class="docutils literal notranslate"><span class="pre">widget</span></code> as specified by
+<code class="docutils literal notranslate"><span class="pre">widget_loc</span></code>. If <code class="docutils literal notranslate"><span class="pre">dx</span></code>/<code class="docutils literal notranslate"><span class="pre">dy</span></code> is used, it is in the <code class="docutils literal notranslate"><span class="pre">widget</span></code>
+coordinate system.</p></li>
+<li><p>If neither is None, it starts at <code class="docutils literal notranslate"><span class="pre">pos</span></code>, but in the <code class="docutils literal notranslate"><span class="pre">widget</span></code>’s
+coordinate system (<code class="xref py py-meth docutils literal notranslate"><span class="pre">to_window()</span></code> is used
+on it). If <code class="docutils literal notranslate"><span class="pre">dx</span></code>/<code class="docutils literal notranslate"><span class="pre">dy</span></code> is used, it is in the <code class="docutils literal notranslate"><span class="pre">widget</span></code>
+coordinate system.</p></li>
+</ul>
+<p><cite>target</cite>: These parameters specify where the drag ends.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">target_pos</span></code> and <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> is None, then <code class="docutils literal notranslate"><span class="pre">dx</span></code> and
+<code class="docutils literal notranslate"><span class="pre">dy</span></code> is used relative to the position where the drag started.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> is None, it ends at <code class="docutils literal notranslate"><span class="pre">target_pos</span></code>
+(in window coordinates).</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">target_pos</span></code> is None, it ends on the <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> as
+specified by <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>. <code class="docutils literal notranslate"><span class="pre">target_widget_offset</span></code>, is an
+additional <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> offset relative to <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>.</p></li>
+<li><p>If neither is None, it starts at <code class="docutils literal notranslate"><span class="pre">target_pos</span></code>, but in the
+<code class="docutils literal notranslate"><span class="pre">target_widget</span></code>’s coordinate system
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">to_window()</span></code> is used on it).</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">widget</span></code> and/or <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> are specified, <code class="docutils literal notranslate"><span class="pre">widget_loc</span></code>
+and <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>, respectively, indicate where on the widget
+the drag starts/ends. It is a a tuple with property names of the widget
+to loop up to get the value. The default is
+<code class="docutils literal notranslate"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></code> so the drag would start/end in the
+widget’s center.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_kivy.app.AsyncUnitApp.do_touch_drag_follow">
+<span class="sig-name descname"><span class="pre">do_touch_drag_follow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_pos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_widget_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">drag_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abs_tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.app.AsyncUnitApp.do_touch_drag_follow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Very similar to <a class="reference internal" href="#pytest_kivy.app.AsyncUnitApp.do_touch_drag" title="pytest_kivy.app.AsyncUnitApp.do_touch_drag"><code class="xref py py-meth docutils literal notranslate"><span class="pre">do_touch_drag()</span></code></a>, except it follows the target
+widget, even if the target widget moves as a result of the drag, the
+drag will follow it until it’s on the target widget.</p>
+<p><cite>origin</cite>: These parameters specify where the drag starts.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">widget</span></code> is None, it starts at <code class="docutils literal notranslate"><span class="pre">pos</span></code> (in window coordinates).</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">pos</span></code> is None, it starts on the <code class="docutils literal notranslate"><span class="pre">widget</span></code> as specified by
+<code class="docutils literal notranslate"><span class="pre">widget_loc</span></code>.</p></li>
+<li><p>If neither is None, it starts at <code class="docutils literal notranslate"><span class="pre">pos</span></code>, but in the <code class="docutils literal notranslate"><span class="pre">widget</span></code>’s
+coordinate system (<code class="xref py py-meth docutils literal notranslate"><span class="pre">to_window()</span></code> is used
+on it).</p></li>
+</ul>
+<p><cite>target</cite>: These parameters specify where the drag ends.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">target_pos</span></code> is None, it ends on the <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> as
+specified by <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>. <code class="docutils literal notranslate"><span class="pre">target_widget_offset</span></code>, is an
+additional <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code> offset relative to <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">target_pos</span></code> is not None, it starts at <code class="docutils literal notranslate"><span class="pre">target_pos</span></code>, but in
+the <code class="docutils literal notranslate"><span class="pre">target_widget</span></code>’s coordinate system
+(<code class="xref py py-meth docutils literal notranslate"><span class="pre">to_window()</span></code> is used on it).</p></li>
+</ul>
+<p>When <code class="docutils literal notranslate"><span class="pre">widget</span></code> and/or <code class="docutils literal notranslate"><span class="pre">target_widget</span></code> are specified, <code class="docutils literal notranslate"><span class="pre">widget_loc</span></code>
+and <code class="docutils literal notranslate"><span class="pre">target_widget_loc</span></code>, respectively, indicate where on the widget
+the drag starts/ends. It is a a tuple with property names of the widget
+to loop up to get the value. The default is
+<code class="docutils literal notranslate"><span class="pre">('center_x',</span> <span class="pre">'center_y')</span></code> so the drag would start/end in the
+widget’s center.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_kivy.app.AsyncUnitApp.do_touch_drag_path">
+<span class="sig-name descname"><span class="pre">do_touch_drag_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis_widget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">long_press</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.app.AsyncUnitApp.do_touch_drag_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drags the touch along the specified path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><cite>path</cite>: list</dt><dd><p>A list of position tuples the touch will follow. The first
+item is used for the touch down and the rest for the move.</p>
+</dd>
+<dt><cite>axis_widget</cite>: a Widget</dt><dd><p>If None, the path coordinates is in window coordinates,
+otherwise, we will first transform the path coordinates
+to window coordinates using
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">to_window()</span></code> of the specified
+widget.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pytest_kivy.app.AsyncUnitApp.raise_startup_exception">
+<span class="sig-name descname"><span class="pre">raise_startup_exception</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.app.AsyncUnitApp.raise_startup_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>(internal) Trio seems to get stuck if app startup fails. So we
+check startup status in the fixture before yielding app.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pytest_kivy.resolver"></span><div class="section" id="resolver">
+<h2>Resolver<a class="headerlink" href="#resolver" title="Permalink to this headline">¶</a></h2>
+<p>Resolves individual widgets, given a root widget to help locate and test
+a specific widget in the widget tree.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="pytest_kivy.resolver.ResolverNotFound">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">pytest_kivy.resolver.</span></span><span class="sig-name descname"><span class="pre">ResolverNotFound</span></span><a class="headerlink" href="#pytest_kivy.resolver.ResolverNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pytest_kivy.resolver.WidgetResolver">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pytest_kivy.resolver.</span></span><span class="sig-name descname"><span class="pre">WidgetResolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_widget</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.resolver.WidgetResolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>It assumes that the widget tree strictly forms a DAG.</p>
+</dd></dl>
+
+</div>
+<span class="target" id="module-pytest_kivy.tools"></span><div class="section" id="tools">
+<h2>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pytest_kivy.tools.exhaust">
+<em class="property"><span class="pre">async</span> </em><span class="sig-prename descclassname"><span class="pre">pytest_kivy.tools.</span></span><span class="sig-name descname"><span class="pre">exhaust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">async_it</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytest_kivy.tools.exhaust" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through all the elements of the iterator until done.
+It does nothing with the elements.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Matthew Einhorn.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
