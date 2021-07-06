@@ -35,6 +35,8 @@ class AsyncUnitApp:
 
     _start_exception = None
 
+    _async_start_task = None
+
     width = 320
 
     height = 240
@@ -119,23 +121,28 @@ class AsyncUnitApp:
         app.fbind('on_stop', stopped_app)
 
         if self.async_lib == 'asyncio':
-            self._event_loop.create_task(self._run_app())
+            # task must be canceled if exception is raised before started
+            self._async_start_task = self._event_loop.create_task(
+                self._run_app())
         else:
             self._nursery.start_soon(self._run_app)
 
-        # if _run_app raises, trio seems to get stuck, so don't wait forever
-        ts = time.perf_counter()
-        while not self.app_has_started and self._start_exception is None:
-            await self.async_sleep(.1)
-            if time.perf_counter() - ts >= 120:
-                raise TimeoutError()
+        try:
+            # if _run_app raises, trio seems to get stuck, so don't wait forever
+            ts = time.perf_counter()
+            while not self.app_has_started and self._start_exception is None:
+                await self.async_sleep(.1)
+                if time.perf_counter() - ts >= 120:
+                    raise TimeoutError()
 
-        from kivy.clock import Clock
-        frames_end = Clock.frames + 5
-        while Clock.frames < frames_end and self._start_exception is None:
-            await self.async_sleep(1 / 60.)
+            from kivy.clock import Clock
+            frames_end = Clock.frames + 5
+            while Clock.frames < frames_end and self._start_exception is None:
+                await self.async_sleep(1 / 60.)
 
-        return app
+            return app
+        finally:
+            self.raise_startup_exception()
 
     async def wait_stop_app(self):
         if self.app is None:
@@ -181,9 +188,12 @@ class AsyncUnitApp:
         """(internal) Trio seems to get stuck if app startup fails. So we
         check startup status in the fixture before yielding app.
         """
-        if self._start_exception is not None:
+        if self.async_lib == 'asyncio' and self._start_exception is not None:
             tp, value, tb = self._start_exception
             self._start_exception = None
+            if self._async_start_task is not None:
+                self._async_start_task.cancel()
+                self._async_start_task = None
             raise value.with_traceback(tb)
 
     async def async_sleep(self, delay):
