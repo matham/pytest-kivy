@@ -1,4 +1,5 @@
 import pytest
+from math import isclose
 from functools import partial
 
 from pytest_kivy.tests import get_pytest_async_mark
@@ -205,7 +206,10 @@ async def test_touch_drag_path(async_kivy_app):
     async for _ in async_kivy_app.do_touch_drag_path(path):
         pass
 
-    assert path + [path[-1]] == pos
+    assert len(path) + 1 == len(pos)
+    for (x1, y1), (x2, y2) in zip(pos, path + [path[-1]]):
+        assert isclose(x1, x2, abs_tol=1)
+        assert isclose(y1, y2, abs_tol=1)
 
 
 @pytest.mark.parametrize(

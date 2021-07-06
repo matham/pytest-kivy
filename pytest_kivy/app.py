@@ -404,7 +404,7 @@ class AsyncUnitApp:
             widget_loc=('center_x', 'center_y'),
             target_pos=None, target_widget=None, target_widget_offset=(0, 0),
             target_widget_loc=('center_x', 'center_y'), long_press=0,
-            duration=.2, drag_n=5, max_n=25):
+            duration=.2, drag_n=5, max_n=25, abs_tol=1):
         """Very similar to :meth:`do_touch_drag`, except it follows the target
         widget, even if the target widget moves as a result of the drag, the
         drag will follow it until it's on the target widget.
@@ -468,7 +468,8 @@ class AsyncUnitApp:
         ts0 = time.perf_counter()
         tx, ty = get_target()
         i = 0
-        while not (math.isclose(touch.x, tx) and math.isclose(touch.y, ty)):
+        while not (math.isclose(touch.x, tx, abs_tol=abs_tol) and
+                   math.isclose(touch.y, ty, abs_tol=abs_tol)):
             if i >= max_n:
                 raise Exception(
                     'Exceeded the maximum number of iterations, '
